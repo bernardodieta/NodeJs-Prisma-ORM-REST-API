@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Shelters {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  addres      String   @unique
+  tel         Int      @default(999)
+  email       String   @unique
+  description String   @unique
+  imagen      String   @unique
+  imagen2     String   @unique
+  imagen3     String   @unique
+  imagen4     String   @unique
+  imagen5     String   @unique
+  bank        String   @unique
+  bankacc     Int      @default(999)
+  owneracc    String   @unique
+  createdAt   DateTime @default(now())
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+
+  Users Users[]
+}
+
+model Users {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  lname     String   @unique
+  cel       Int      @default(999)
+  email     String   @unique
+  avatar    String   @unique
+  username  String   @unique
+  password  String   @unique
+  createdAt DateTime @default(now())
+  shelterId Int
+  shelter   Shelters @relation(fields: [shelterId], references: [id])
+}
+
+model Dogs {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  shelterId  String   @unique
+  age        Int      @default(999)
+  size       String   @unique
+  healty     String   @unique
+  createdAt  DateTime @default(now())
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id      Int        @id @default(autoincrement())
+  name    String     @unique
+  dogs    Dogs[]
+  shelter Shelters[]
+}
